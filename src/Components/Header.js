@@ -2,15 +2,18 @@ import { signOut } from "firebase/auth";
 import React from "react";
 import { auth } from "../Util/firebase";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { removeUser } from "../Util/userSlice";
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
   const toggleSignOut = () => {
     signOut(auth)
       .then(() => {
         navigate("/");
+        dispatch(removeUser());
       })
       .catch((error) => {
         navigate("/error");
